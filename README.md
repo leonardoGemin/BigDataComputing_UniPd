@@ -29,7 +29,7 @@ To test your program you can use the 3 datasets we provide, in the same section 
 <br />
 
 ## Homework 2
-**INTRODUCTION**. Homeworks 2 and 3 will focus on the **k-center with z outliers problem**, that is, the robust version of the k-center problem which is useful in the analysis of noisy data (a quite common scenario in big data computing). Given a set P of points and two integers k and z, the problem requires to determine a set S ⊂ P of k centers which minimize the maximum distance of a point of P-Z from S, where Z are the z farthest points of P from S. In other words, with respect to the standard k-center problem, in the k-center with z outliers problem, we are allowed to disregard the z farthest points from S in the objective function. Unfortunately, the solution of this problem turns out much harder than the one of the standard k-center problem. The 3-approximation sequential algorithm by Charikar et al. for k-center with z outliers, which we call **kcenterOUT**, is simple to implement but has superlinear complexity (more than quadratic, unless sophisticated data structures are used). The rigorous specification of the problem and the description of kcenterOUT with pseudocode, can be found in this set of slides: [PresentationHW2.pdf]().
+**INTRODUCTION**. Homeworks 2 and 3 will focus on the **k-center with z outliers problem**, that is, the robust version of the k-center problem which is useful in the analysis of noisy data (a quite common scenario in big data computing). Given a set P of points and two integers k and z, the problem requires to determine a set S ⊂ P of k centers which minimize the maximum distance of a point of P-Z from S, where Z are the z farthest points of P from S. In other words, with respect to the standard k-center problem, in the k-center with z outliers problem, we are allowed to disregard the z farthest points from S in the objective function. Unfortunately, the solution of this problem turns out much harder than the one of the standard k-center problem. The 3-approximation sequential algorithm by Charikar et al. for k-center with z outliers, which we call **kcenterOUT**, is simple to implement but has superlinear complexity (more than quadratic, unless sophisticated data structures are used). The rigorous specification of the problem and the description of kcenterOUT with pseudocode, can be found in this set of slides: PresentationHW2.pdf.
 
 The two homeworks will demonstrate that in this case a coreset-based approach can be successfully employed. In Homework 2 you will implement the 3-approximation sequential algorithm and will get a first-hand experience of its inefficiency. In Homework 3, you will implement a 2-round MapReduce coreset-based algorithm for the problem, where the use of the inefficient 3-approximation is confined to a small coreset computed in parallel through the efficient Farthest-First Traversal.
 
@@ -52,7 +52,7 @@ FOR PYTHON USERS. We suggest to represent points as the standard _tuple of float
    - **An integer z** (the number of allowed outliers). 
      
 **The program must do the following:**
-- Read the points in the input file into an ArrayList<Vector> (list of tuple in Python) called **inputPoints**. To this purpose, you can use the code provided in the file [InputCode.java](), for Java users, and [InputCode.py](), for Python users. 
+- Read the points in the input file into an ArrayList<Vector> (list of tuple in Python) called **inputPoints**. To this purpose, you can use the code provided in the file InputCode.java, for Java users, and InputCode.py, for Python users. 
   
 - Create an ArrayList<Long> (list of integer in Python) called **weights** of the same cardinality of inputPoints, initialized with all 1's. (In this homework we will use unit weights, but in Homework 3 we will need the generality of arbitrary integer weights!). 
   
@@ -60,21 +60,21 @@ FOR PYTHON USERS. We suggest to represent points as the standard _tuple of float
   
 - Run **ComputeObjective(inputPoints,solution,z)** and save the output in a variable called **objective**. 
   
-- Return as output the following quantities: n =|P|, k, z, the initial value of the guess r, the final value of the guess r, and the number of guesses made by SeqWeightedOutliers(inputPoints,weights,k,z,0), the value of the objective function (variable objective), and the time (in milliseconds) required by the execution of SeqWeightedOutliers(inputPoints,weights,k,z,0). IT IS IMPORTANT THAT ALL PROGRAMS USE THE SAME OUTPUT FORMAT AS IN THE FOLLOWING EXAMPLE: [OutputFormat.txt]() 
+- Return as output the following quantities: n =|P|, k, z, the initial value of the guess r, the final value of the guess r, and the number of guesses made by SeqWeightedOutliers(inputPoints,weights,k,z,0), the value of the objective function (variable objective), and the time (in milliseconds) required by the execution of SeqWeightedOutliers(inputPoints,weights,k,z,0). IT IS IMPORTANT THAT ALL PROGRAMS USE THE SAME OUTPUT FORMAT AS IN THE FOLLOWING EXAMPLE: OutputFormat.txt
   
-Test your program using the datasets [available here]() (the outputs of some runs of the program on those datasets will be made available at the same link)
+Test your program using the datasets available here (the outputs of some runs of the program on those datasets will be made available at the same link)
 <br />
 
 ## Homework 3
 In this homework, you will run a Spark program on the CloudVeneto cluster. The core of the Spark program will be the implementation of **2-round coreset-based MapReduce algorithm for k-center with z outliers**, which works as follows: in **Round 1**, separately for each partition of the dataset, a _weighted coreset_ of k+z+1 points is computed, where the weight assigned to a coreset point p is the number of points in the partition which are closest to p (ties broken arbitrarily); in **Round 2**, the L weighted coresets (one from each partition) are gathered into one weighted coreset of size (k+z+1)*L, and one reducer runs the sequential algorithm developed for Homework 2 (**SeqWeightedOutliers**) on this weighted coreset to extract the final solution. In the homework you will test the accuracy of the solution and the scalability of the various steps.
 
 ### Using CloudVeneto
-A brief description of the cluster available for the course, together with instructions on how to access the cluster and how to run your program on it are given in this [User guide for the cluster on CloudVeneto]().
+A brief description of the cluster available for the course, together with instructions on how to access the cluster and how to run your program on it are given in this User guide for the cluster on CloudVeneto.
 
 ### Assignment
 You must perform the following tasks.
 
-**TASK 1. Download the template** ([TemplateHW3.java]() for Java users, and [TemplateHW3.py]() for Python users). The template contains a skeleton of the implementation of the 2-round MapReduce algorithm described above. Specifically, the template is structured as follows:
+**TASK 1. Download the template** (TemplateHW3.java for Java users, and TemplateHW3.py for Python users). The template contains a skeleton of the implementation of the 2-round MapReduce algorithm described above. Specifically, the template is structured as follows:
 - Receives in input the following command-line (CLI) arguments:
   - **A path to a text file containing point set in Euclidean space**. Each line of the file contains, separated by commas, the coordinates of a point. Your program should make no assumptions on the number of dimensions!
     
@@ -97,11 +97,11 @@ You must perform the following tasks.
 
 4. Write the code for method computObjective. It is important that you keep in mind that the input dataset may be very large and that, in this case,  any structure of the size of this dataset may not fit into local memory.
 
-The output of your code should use the following [OutputFormat](). (Note that the  lines "Initial guess", "Final Guess" and "Number of guesses" are those prinited by SeqWeightedOutliers, as in Homework 2).
+The output of your code should use the following OutputFormat. (Note that the  lines "Initial guess", "Final Guess" and "Number of guesses" are those prinited by SeqWeightedOutliers, as in Homework 2).
 
-**TASK 3. Test and debug your program** in local mode on your PC _to make sure that it runs correctly_. For this local test you can use the 16-point dataset testdataHW3.txt which you can [download here]() and the datasets uber-small.csv and artificial9000.txt that you used also for Homework 2, available in [this page]().
+**TASK 3. Test and debug your program** in local mode on your PC _to make sure that it runs correctly_. For this local test you can use the 16-point dataset testdataHW3.txt which you can download here and the datasets uber-small.csv and artificial9000.txt that you used also for Homework 2, available in this page.
 
-**TASK 4. Test your program on the cluster** using the datasets which have been preloaded in the HDFS available in the cluster. Use various configurations of parameters and report your results using the tables given in this word file: [TableHW3-Java.docx]() (for Java users) and [TableHW3-Python.docx]() (for Python users).
+**TASK 4. Test your program on the cluster** using the datasets which have been preloaded in the HDFS available in the cluster. Use various configurations of parameters and report your results using the tables given in this word file: TableHW3-Java.docx (for Java users) and TableHW3-Python.docx (for Python users).
 
 WHEN USING THE CLUSTER, YOU MUST STRICTLY FOLLOW THESE RULES:
 
