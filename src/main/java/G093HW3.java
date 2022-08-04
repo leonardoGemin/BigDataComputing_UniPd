@@ -7,9 +7,6 @@ import org.apache.spark.mllib.linalg.Vector;
 import org.apache.spark.mllib.linalg.Vectors;
 import scala.Tuple2;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class G093HW3 {
@@ -402,7 +399,7 @@ public class G093HW3 {
                     }
                     return minDist;
                 })
-                .sortBy(f -> f, false, 1);
+                .sortBy(f -> f, false, points.getNumPartitions());
 
         return minDistances.take(z + 1).get(z);
     }
